@@ -12,16 +12,14 @@ CREATE TABLE users (
 
 CREATE TABLE clients (
   id SERIAL PRIMARY KEY,
-  id_user INTEGER NOT NULL,
   name TEXT NOT NULL,
   email TEXT NOT NULL UNIQUE,
-  cpf CHAR(11) NOT NULL,
+  cpf CHAR(11) NOT NULL UNIQUE,
   phone VARCHAR(16) NOT NULL,
   cep CHAR(8),
   address TEXT,
   complement TEXT,
   neighborhood TEXT,
   city TEXT,
-  estate TEXT,
-  FOREIGN KEY (id_user) REFERENCES users (id)
+  state CHAR(2)
 );

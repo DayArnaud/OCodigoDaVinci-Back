@@ -1,13 +1,13 @@
 const knex = require("../connection");
 
-async function isEmailValid(email, db) {
-  const user = await knex(db).where({ email }).first();
-  if (user) {
-    throw new Error("Email already registered");
+const isEmailValid = async (email, _db, table = "users") => {
+  const entity = await knex(table).where({ email }).first();
+  if (entity) {
+    throw new Error(`Email already registered in ${table}`);
   }
-}
+};
 
-async function registerNewUser(name, email, password) {
+const registerNewUser = async (name, email, password) => {
   const user = await knex("users")
     .insert({
       name,
@@ -23,9 +23,9 @@ async function registerNewUser(name, email, password) {
   }
 
   return user;
-}
+};
 
-async function verifyLoginUser(emailUser) {
+const verifyLoginUser = async (emailUser) => {
   const user = await knex("users").where({ email: emailUser }).first().debug();
 
   if (!user) {
@@ -35,10 +35,55 @@ async function verifyLoginUser(emailUser) {
   }
 
   return user;
-}
+};
+
+const isCpfValid = async (cpf, table = "clients") => {
+  const existingUser = await knex(table).where({ cpf }).first();
+  if (existingUser) {
+    throw new Error("CPF already registered");
+  }
+};
+
+const registerNewClient = async (
+  id,
+  name,
+  email,
+  cpf,
+  phone,
+  cep,
+  address,
+  complement,
+  neighborhood,
+  city,
+  state
+) => {
+  const client = await knex("clients")
+    .insert({
+      id,
+      name,
+      email,
+      cpf,
+      phone,
+      cep,
+      address,
+      complement,
+      neighborhood,
+      city,
+      state: state.toUpperCase(),
+    })
+    .returning("*");
+
+  if (!client.length) {
+    throw new Error("Cliente não cadastrado.");
+  }
+
+  return client[0];
+};
 
 module.exports = {
   isEmailValid,
   registerNewUser,
   verifyLoginUser,
+  isCpfValid,
+  registerNewClient,
 };

@@ -12,7 +12,7 @@ async function checkEmailAvailability(req, res) {
 
   try {
     await validEmail.validate(req.body);
-    await dbOperations.isEmailValid(email, "users");
+    await dbOperations.isEmailValid(email, db);
     return res.status(HTTP_SUCCESS).json({ message: "Valid email" });
   } catch (error) {
     return res.status(HTTP_BAD_REQUEST).json({ message: error.message });
