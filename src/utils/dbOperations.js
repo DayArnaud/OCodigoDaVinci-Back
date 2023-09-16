@@ -25,7 +25,20 @@ async function registerNewUser(name, email, password) {
   return user;
 }
 
+async function verifyLoginUser(emailUser) {
+  const user = await knex("users").where({ email: emailUser }).first().debug();
+
+  if (!user) {
+    throw new Error(
+      "The email you entered isn't registered. Please check and try again."
+    );
+  }
+
+  return user;
+}
+
 module.exports = {
   isEmailValid,
   registerNewUser,
+  verifyLoginUser,
 };
