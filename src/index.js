@@ -9,17 +9,6 @@ app.use(express.json());
 app.use(cors());
 app.use(routes);
 
-// teste inicial:
-app.get("/", async (req, res) => {
-  try {
-    const users = await knex("users");
-    return res.json(users);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Server error" });
-  }
-});
-
 const port = process.env.PORT || 3000;
 app.listen(process.env.PORT, () => {
   console.log(`Server running on port ${port}`);
