@@ -3,13 +3,13 @@ const express = require("express");
 const knex = require("./connection");
 const cors = require("cors");
 const app = express();
+const routes = require("./routes/router");
 
 app.use(express.json());
 app.use(cors());
-// app.use(routes);
+app.use(routes);
 
-// const routes = require("./routes/router");
-
+// teste inicial:
 app.get("/", async (req, res) => {
   try {
     const users = await knex("users");
