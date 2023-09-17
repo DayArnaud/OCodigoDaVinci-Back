@@ -6,7 +6,7 @@ const HTTP_SUCCESS = 200;
 const HTTP_CREATED = 201;
 const HTTP_BAD_REQUEST = 400;
 
-async function checkEmailAvailability(req, res) {
+async function checkClientEmailAvailability(req, res) {
   const { email } = req.body;
 
   try {
@@ -68,6 +68,6 @@ async function registerClient(req, res) {
 }
 
 module.exports = {
-  checkEmailAvailability,
+  checkClientEmailAvailability,
   registerClient,
 };

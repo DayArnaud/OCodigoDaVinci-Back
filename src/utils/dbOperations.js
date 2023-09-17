@@ -1,7 +1,7 @@
 const knex = require("../connection");
 
 const isUserEmailValid = async (email, table = "users") => {
-  const user = await knex(table).where({ email }).first().debug();
+  const user = await knex(table).where({ email }).first();
   if (user) {
     throw new Error("Email already registered");
   }
@@ -26,7 +26,7 @@ const registerNewUser = async (name, email, password) => {
 };
 
 const verifyLoginUser = async (emailUser) => {
-  const user = await knex("users").where({ email: emailUser }).first().debug();
+  const user = await knex("users").where({ email: emailUser }).first();
 
   if (!user) {
     throw new Error(
@@ -45,7 +45,7 @@ const isCpfValid = async (cpf, table = "clients") => {
 };
 
 const isClientEmailValid = async (email, table = "clients") => {
-  const client = await knex(table).where({ email }).first().debug();
+  const client = await knex(table).where({ email }).first();
   if (client) {
     throw new Error("Email already registered");
   }
@@ -85,6 +85,42 @@ const registerNewClient = async (
   return client[0];
 };
 
+async function verifyUserById(userId) {
+  const user = await knex("users").where({ id: userId }).first();
+  if (!user) {
+    throw new Error("User not found!");
+  }
+  return user;
+}
+
+async function updatingUser(name, email, password, cpf, phone, userId) {
+  const schema = password
+    ? {
+        name,
+        email,
+        password,
+        cpf,
+        phone,
+      }
+    : {
+        name,
+        email,
+        cpf,
+        phone,
+      };
+
+  const updatedUser = await knex("users")
+    .update(schema)
+    .where({ id: userId })
+    .returning("*");
+
+  if (!updatedUser) {
+    throw new Error("User was not updated!");
+  }
+
+  return updatedUser[0];
+}
+
 module.exports = {
   isUserEmailValid,
   registerNewUser,
@@ -92,4 +128,6 @@ module.exports = {
   isCpfValid,
   isClientEmailValid,
   registerNewClient,
+  verifyUserById,
+  updatingUser,
 };
