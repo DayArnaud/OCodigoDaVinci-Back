@@ -1,9 +1,9 @@
 const knex = require("../connection");
 
-const isEmailValid = async (email, _db, table = "users") => {
-  const entity = await knex(table).where({ email }).first();
-  if (entity) {
-    throw new Error(`Email already registered in ${table}`);
+const isUserEmailValid = async (email, table = "users") => {
+  const user = await knex(table).where({ email }).first().debug();
+  if (user) {
+    throw new Error("Email already registered");
   }
 };
 
@@ -44,8 +44,14 @@ const isCpfValid = async (cpf, table = "clients") => {
   }
 };
 
+const isClientEmailValid = async (email, table = "clients") => {
+  const client = await knex(table).where({ email }).first().debug();
+  if (client) {
+    throw new Error("Email already registered");
+  }
+};
+
 const registerNewClient = async (
-  id,
   name,
   email,
   cpf,
@@ -59,7 +65,6 @@ const registerNewClient = async (
 ) => {
   const client = await knex("clients")
     .insert({
-      id,
       name,
       email,
       cpf,
@@ -81,9 +86,10 @@ const registerNewClient = async (
 };
 
 module.exports = {
-  isEmailValid,
+  isUserEmailValid,
   registerNewUser,
   verifyLoginUser,
   isCpfValid,
+  isClientEmailValid,
   registerNewClient,
 };
