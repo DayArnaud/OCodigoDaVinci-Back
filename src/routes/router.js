@@ -7,6 +7,7 @@ const {
 } = require("../controllers/registerClient");
 const { showUser } = require("../controllers/showUser");
 const { authenticate } = require("../middlewares/checkLoginAuth");
+const { updateUser } = require("../controllers/updateUser");
 
 const routes = express();
 
@@ -17,6 +18,7 @@ routes.post("/login", signIn);
 routes.use(authenticate);
 
 routes.get("/me", showUser);
+routes.patch("/update-me", updateUser);
 
 routes.post("/validate-client-email", checkClientEmailAvailability);
 routes.post("/clients", registerClient);

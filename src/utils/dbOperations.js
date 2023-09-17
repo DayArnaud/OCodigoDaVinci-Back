@@ -85,6 +85,42 @@ const registerNewClient = async (
   return client[0];
 };
 
+async function verifyUserById(userId) {
+  const user = await knex("users").where({ id: userId }).first();
+  if (!user) {
+    throw new Error("User not found!");
+  }
+  return user;
+}
+
+async function updatingUser(name, email, password, cpf, phone, userId) {
+  const schema = password
+    ? {
+        name,
+        email,
+        password,
+        cpf,
+        phone,
+      }
+    : {
+        name,
+        email,
+        cpf,
+        phone,
+      };
+
+  const updatedUser = await knex("users")
+    .update(schema)
+    .where({ id: userId })
+    .returning("*");
+
+  if (!updatedUser) {
+    throw new Error("User was not updated!");
+  }
+
+  return updatedUser[0];
+}
+
 module.exports = {
   isUserEmailValid,
   registerNewUser,
@@ -92,4 +128,6 @@ module.exports = {
   isCpfValid,
   isClientEmailValid,
   registerNewClient,
+  verifyUserById,
+  updatingUser,
 };
