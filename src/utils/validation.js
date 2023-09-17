@@ -1,10 +1,10 @@
-const validateName = async (name) => {
+const validateName = (name) => {
   if (!name || typeof name !== "string" || !name.trim()) {
     throw new Error("Name is required and must be a valid string.");
   }
 };
 
-const validatePassword = async (password) => {
+const validatePassword = (password) => {
   if (
     typeof password !== "string" ||
     !password.trim() ||
@@ -14,21 +14,21 @@ const validatePassword = async (password) => {
   }
 };
 
-const validateCPF = async (cpf) => {
+const validateCpf = (cpf) => {
   if (typeof cpf !== "string" || cpf.trim().length !== 11 || isNaN(cpf)) {
     throw new Error("Invalid CPF! It should have 11 numeric digits.");
   }
 };
 
-const validatePhone = async (phone) => {
+const validatePhone = (phone) => {
   if (typeof phone !== "string" || phone.trim().length < 10 || isNaN(phone)) {
     throw new Error(
-      "Invalid phone number! Should include area code and a valid number."
+      "Invalid phone number! Should include area code, no spaces and a valid number."
     );
   }
 };
 
-const validatePostal = async (postalCode) => {
+const validatePostal = (postalCode) => {
   if (
     typeof postalCode !== "string" ||
     postalCode.trim().length !== 8 ||
@@ -38,7 +38,7 @@ const validatePostal = async (postalCode) => {
   }
 };
 
-const validateState = async (state) => {
+const validateState = (state) => {
   const validStates = [
     "AC",
     "AL",
@@ -81,7 +81,7 @@ const validateState = async (state) => {
 module.exports = {
   validateName,
   validatePassword,
-  validateCPF,
+  validateCpf,
   validatePhone,
   validatePostal,
   validateState,
