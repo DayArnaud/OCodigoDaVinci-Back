@@ -1,7 +1,13 @@
 const axios = require("axios");
 const dbOperations = require("../utils/dbOperations");
-const validEmail = require("../schemas/validEmail");
-const validation = require("../utils/validation");
+const {
+  validEmail,
+  validateName,
+  validateCpf,
+  validatePhone,
+  validatePostal,
+  validateState,
+} = require("../schemasYup/userClientValidations");
 
 const HTTP_SUCCESS = 200;
 const HTTP_CREATED = 201;
@@ -11,7 +17,7 @@ async function checkClientEmailAvailability(req, res) {
   const { email } = req.body;
 
   try {
-    await validEmail.validate(req.body);
+    await validEmail.validate({ email });
     await dbOperations.isClientEmailValid(email, "clients");
     return res.status(HTTP_SUCCESS).json({ message: "Valid email" });
   } catch (error) {
@@ -43,15 +49,15 @@ async function registerClient(req, res) {
   } = req.body;
 
   try {
-    await validation.validateName(name);
+    await validateName.validate({ name });
     await dbOperations.isClientEmailValid(email, "clients");
-    await validEmail.validate(req.body);
+    await validEmail.validate({ email });
     await dbOperations.isCpfValid(cpf, "clients");
-    await validation.validateCpf(cpf);
-    await validation.validatePhone(phone);
+    await validateCpf.validate({ cpf });
+    await validatePhone.validate({ phone });
 
     if (cep) {
-      await validation.validatePostal(cep);
+      await validatePostal.validate({ cep });
       const cepData = await fetchAddressByCep(cep);
       address = cepData.logradouro;
       complement = cepData.complemento;
@@ -59,6 +65,8 @@ async function registerClient(req, res) {
       city = cepData.localidade;
       state = cepData.uf;
     }
+
+    await validateState.validate({ state });
 
     const client = await dbOperations.registerNewClient(
       name,

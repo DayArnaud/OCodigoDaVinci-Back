@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const jwtToken = require("../token/jwtToken");
-const validSignIn = require("../schemas/validSignIn");
+const validSignIn = require("../schemasYup/validSignIn");
 const dbOperations = require("../utils/dbOperations");
 
 const HTTP_SUCCESS = 200;
