@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const dbOperations = require("../utils/dbOperations");
-const validSignUp = require("../schemas/validSignUp");
-const validEmail = require("../schemas/validEmail");
+const validSignUp = require("../schemasYup/validSignUp");
+const { validEmail } = require("../schemasYup/userClientValidations");
 
 const HTTP_SUCCESS = 200;
 const HTTP_CREATED = 201;
@@ -11,7 +11,7 @@ async function checkEmailAvailability(req, res) {
   const { email } = req.body;
 
   try {
-    await validEmail.validate(req.body);
+    await validEmail.validate({ email });
     await dbOperations.isUserEmailValid(email, "users");
     return res.status(HTTP_SUCCESS).json({ message: "Valid email" });
   } catch (error) {
