@@ -1,8 +1,8 @@
-# OCodigoDaVinci-Back
+# Equipe: OCodigoDaVinci-Back
 
 </p>
 <h4 align="center"> 
-	PayWell
+	QuitaFacil
 </h4>
 
 <p align="center">
@@ -23,8 +23,8 @@
 
 ## 💻 Sobre o projeto
 
-O PayWell é uma plataforma de empréstimos que oferece uma solução abrangente para gerenciar sua base de clientes, permitindo uma visão clara do status e categoria de cada conta—sejam elas pagas, vencidas ou em dia. É uma ferramenta indispensável para otimizar o fluxo de trabalho e melhorar a eficiência operacional. <br>
-PayWell: O Seu Caminho para Pagamentos Mais Inteligentes
+O QuitaFacil é uma plataforma de empréstimos que oferece uma solução abrangente para gerenciar sua base de clientes, permitindo uma visão clara do status e categoria de cada conta—sejam elas pagas, vencidas ou em dia. É uma ferramenta indispensável para otimizar o fluxo de trabalho e melhorar a eficiência operacional. <br>
+QuitaFacil: O Seu Caminho para Pagamentos Mais Inteligentes
 
 <br>
 
@@ -90,7 +90,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 <br>
 
-## 🧙‍♀️ Autoras
+## 🧙‍♀️ Autores
 
 <a href="https://www.linkedin.com/in/dayane-arnaud/">
  <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/122646943?v=4" width="100px;" alt=""/>
@@ -104,6 +104,24 @@ As seguintes ferramentas foram usadas na construção do projeto:
  <sub><b>Lene Ribeiro</b></sub></a>✨</a>
  <br />
 
+ <a href="https://www.linkedin.com/in/caiohr/">
+ <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/65637121?v=4" width="100px;" alt=""/>
+ <br />
+ <sub><b>Caio Ribeiro</b></sub></a>✨</a>
+ <br />
+
+ <a href="https://www.linkedin.com/in/marcos-samuel-batista-m/">
+ <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/121835618?v=4" width="100px;" alt=""/>
+ <br />
+ <sub><b>Marcos Samuel</b></sub></a>✨</a>
+ <br />
+
+ <a href="https://www.linkedin.com/in/vinícius-peter/">
+ <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/122483460?v=4" width="100px;" alt=""/>
+ <br />
+ <sub><b>Vinicius Peter</b></sub></a>✨</a>
+ <br />
+
 ---
 
 ## 📝 Licença
@@ -113,4 +131,10 @@ As seguintes ferramentas foram usadas na construção do projeto:
 Feito com ❤️ por:
 <br/>
 Dayane Arnaud [Entre em contato!](https://wa.me/5548999932109)  
-Lene Ribeiro [LinkedIn:](https://www.linkedin.com/in/lene-ribeiro-desenvolvedora-full-stack/)
+Lene Ribeiro [LinkedIn](https://www.linkedin.com/in/lene-ribeiro-desenvolvedora-full-stack/)
+<br/>
+Caio Ribeiro [LinkedIn](https://www.linkedin.com/in/caiohr/)
+<br/>
+Marcos Samuel [LinkedIn](https://www.linkedin.com/in/marcos-samuel-batista-m/)
+<br/>
+Vinicius Peter [LinkedIn](https://www.linkedin.com/in/vinícius-peter/)
