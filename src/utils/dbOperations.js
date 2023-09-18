@@ -44,6 +44,22 @@ const isCpfValid = async (cpf, table = "clients") => {
   }
 };
 
+const deleteUserById = async (userId) => {
+  try {
+    const rowsDeleted = await knex("users").where({ id: userId }).del();
+
+    if (rowsDeleted > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    throw new Error(
+      "An error occurred while deleting the user: " + error.message
+    );
+  }
+};
+
 const isClientEmailValid = async (email, table = "clients") => {
   const client = await knex(table).where({ email }).first();
   if (client) {
@@ -126,6 +142,7 @@ module.exports = {
   registerNewUser,
   verifyLoginUser,
   isCpfValid,
+  deleteUserById,
   isClientEmailValid,
   registerNewClient,
   verifyUserById,

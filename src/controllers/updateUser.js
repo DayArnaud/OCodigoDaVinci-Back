@@ -5,7 +5,6 @@ const validEmail = require("../schemas/validEmail");
 
 const HTTP_SUCCESS = 200;
 const HTTP_BAD_REQUEST = 400;
-const HTTP_UNAUTHORIZED = 401;
 
 async function updateUser(req, res) {
   let { name, email, password, cpf, phone } = req.body;
