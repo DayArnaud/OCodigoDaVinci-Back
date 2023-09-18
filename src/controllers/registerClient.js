@@ -1,3 +1,4 @@
+const axios = require("axios");
 const dbOperations = require("../utils/dbOperations");
 const validEmail = require("../schemas/validEmail");
 const validation = require("../utils/validation");
@@ -18,8 +19,17 @@ async function checkClientEmailAvailability(req, res) {
   }
 }
 
+async function fetchAddressByCep(cep) {
+  try {
+    const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch CEP");
+  }
+}
+
 async function registerClient(req, res) {
-  const {
+  let {
     name,
     email,
     cpf,
@@ -42,10 +52,12 @@ async function registerClient(req, res) {
 
     if (cep) {
       await validation.validatePostal(cep);
-    }
-
-    if (state) {
-      await validation.validateState(state);
+      const cepData = await fetchAddressByCep(cep);
+      address = cepData.logradouro;
+      complement = cepData.complemento;
+      neighborhood = cepData.bairro;
+      city = cepData.localidade;
+      state = cepData.uf;
     }
 
     const client = await dbOperations.registerNewClient(
