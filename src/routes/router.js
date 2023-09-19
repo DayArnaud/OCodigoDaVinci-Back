@@ -9,6 +9,7 @@ const { showUser } = require("../controllers/showUser");
 const { authenticate } = require("../middlewares/checkLoginAuth");
 const { updateUser } = require("../controllers/updateUser");
 const { deleteUser } = require("../controllers/deleteUser");
+const { listUsers } = require("../controllers/listUsers");
 
 const routes = express();
 
@@ -20,6 +21,7 @@ routes.use(authenticate);
 
 routes.get("/me", showUser);
 routes.patch("/update-me", updateUser);
+routes.get("/list-users", listUsers);
 routes.delete("/me", deleteUser);
 
 routes.post("/validate-client-email", checkClientEmailAvailability);

@@ -3,8 +3,9 @@ const knex = require("../connection");
 const isUserEmailValid = async (email, table = "users") => {
   const user = await knex(table).where({ email }).first();
   if (user) {
-    throw new Error("Email already registered");
+    return user;
   }
+  return null;
 };
 
 const registerNewUser = async (name, email, password) => {
@@ -57,6 +58,15 @@ const deleteUserById = async (userId) => {
     throw new Error(
       "An error occurred while deleting the user: " + error.message
     );
+  }
+};
+
+const getAllUsers = async () => {
+  try {
+    const users = await knex("users").select("*");
+    return users;
+  } catch (error) {
+    throw new Error("Could not fetch users");
   }
 };
 
@@ -143,6 +153,7 @@ module.exports = {
   verifyLoginUser,
   isCpfValid,
   deleteUserById,
+  getAllUsers,
   isClientEmailValid,
   registerNewClient,
   verifyUserById,
