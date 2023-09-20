@@ -146,6 +146,11 @@ async function updatingUser(name, email, password, cpf, phone, userId) {
   return updatedUser[0];
 }
 
+async function isValidClientId(id) {
+  const client = await knex("clients").where({ id: id });
+  return client.length > 0;
+}
+
 module.exports = {
   isUserEmailValid,
   registerNewUser,
@@ -157,4 +162,5 @@ module.exports = {
   registerNewClient,
   verifyUserById,
   updatingUser,
+  isValidClientId,
 };
