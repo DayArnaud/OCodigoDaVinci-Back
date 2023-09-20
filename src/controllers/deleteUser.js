@@ -6,7 +6,6 @@ const HTTP_BAD_REQUEST = 400;
 
 async function deleteUser(req, res) {
   const { id } = req.user;
-  console.log("ID from JWT:", id);
 
   try {
     const result = await dbOperations.deleteUserById(id);
