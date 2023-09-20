@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS clients;
+DROP TABLE IF EXISTS charges;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -21,5 +22,15 @@ CREATE TABLE clients (
   complement TEXT,
   neighborhood TEXT,
   city TEXT,
-  state CHAR(2)
+  state CHAR(2),
+  status TEXT DEFAULT 'Em dia'
+);
+
+CREATE TABLE charges (
+  id SERIAL PRIMARY KEY,
+  client_id INTEGER REFERENCES clients(id),
+  description TEXT NOT NULL,
+  status TEXT DEFAULT 'pendente',
+  value NUMERIC(10, 2) NOT NULL,
+  due_date DATE NOT NULL
 );
