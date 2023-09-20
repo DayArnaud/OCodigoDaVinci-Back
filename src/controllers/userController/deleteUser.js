@@ -1,4 +1,4 @@
-const dbOperations = require("../utils/dbOperations");
+const dbOperations = require("../../utils/dbOperations");
 
 const HTTP_SUCCESS = 200;
 const HTTP_NOT_FOUND = 404;

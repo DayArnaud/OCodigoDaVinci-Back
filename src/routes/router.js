@@ -1,15 +1,18 @@
 const express = require("express");
-const { signUp, checkEmailAvailability } = require("../controllers/signUpUser");
-const signIn = require("../controllers/signInUser");
+const {
+  signUp,
+  checkEmailAvailability,
+} = require("../controllers/userController/signUpUser");
+const signIn = require("../controllers/userController/signInUser");
 const {
   registerClient,
   checkClientEmailAvailability,
-} = require("../controllers/registerClient");
-const { showUser } = require("../controllers/showUser");
+} = require("../controllers/clientController/registerClient");
+const { showUser } = require("../controllers/userController/showUser");
 const { authenticate } = require("../middlewares/checkLoginAuth");
-const { updateUser } = require("../controllers/updateUser");
-const { deleteUser } = require("../controllers/deleteUser");
-const { listUsers } = require("../controllers/listUsers");
+const { updateUser } = require("../controllers/userController/updateUser");
+const { deleteUser } = require("../controllers/userController/deleteUser");
+const { listUsers } = require("../controllers/userController/listUsers");
 
 const routes = express();
 

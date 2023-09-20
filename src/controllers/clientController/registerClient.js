@@ -1,5 +1,5 @@
 const axios = require("axios");
-const dbOperations = require("../utils/dbOperations");
+const dbOperations = require("../../utils/dbOperations");
 const {
   validEmail,
   validateName,
@@ -7,7 +7,7 @@ const {
   validatePhone,
   validatePostal,
   validateState,
-} = require("../schemasYup/userClientValidations");
+} = require("../../schemasYup/userClientValidations");
 
 const HTTP_SUCCESS = 200;
 const HTTP_CREATED = 201;

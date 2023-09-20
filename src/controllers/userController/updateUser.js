@@ -1,12 +1,12 @@
 const bcrypt = require("bcrypt");
-const dbOperations = require("../utils/dbOperations");
+const dbOperations = require("../../utils/dbOperations");
 const {
   validEmail,
   validateName,
   validatePassword,
   validateCpf,
   validatePhone,
-} = require("../schemasYup/userClientValidations");
+} = require("../../schemasYup/userClientValidations");
 
 const HTTP_SUCCESS = 200;
 const HTTP_BAD_REQUEST = 400;

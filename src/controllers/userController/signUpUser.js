@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
-const dbOperations = require("../utils/dbOperations");
-const validSignUp = require("../schemasYup/validSignUp");
-const { validEmail } = require("../schemasYup/userClientValidations");
+const dbOperations = require("../../utils/dbOperations");
+const validSignUp = require("../../schemasYup/validSignUp");
+const { validEmail } = require("../../schemasYup/userClientValidations");
 
 const HTTP_SUCCESS = 200;
 const HTTP_CREATED = 201;
