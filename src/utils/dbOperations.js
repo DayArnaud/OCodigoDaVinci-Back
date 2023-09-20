@@ -3,9 +3,8 @@ const knex = require("../connection");
 const isUserEmailValid = async (email, table = "users") => {
   const user = await knex(table).where({ email }).first();
   if (user) {
-    return user;
+    throw new Error("Email already registered");
   }
-  return null;
 };
 
 const registerNewUser = async (name, email, password) => {

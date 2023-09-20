@@ -15,10 +15,16 @@ async function updateUser(req, res) {
   let { name, email, password, cpf, phone } = req.body;
   const { id } = req.user;
 
-  if (!name || !email) {
+  if (!name) {
     return res
       .status(HTTP_BAD_REQUEST)
-      .json({ message: "Name and email are mandatory for the update." });
+      .json({ message: "Name is mandatory for the update." });
+  }
+
+  if (!email) {
+    return res
+      .status(HTTP_BAD_REQUEST)
+      .json({ message: "Email is mandatory for the update." });
   }
 
   try {
@@ -26,13 +32,9 @@ async function updateUser(req, res) {
 
     await validateName.validate({ name });
 
-    await validEmail.validate({ email });
-
-    const emailUser = await dbOperations.isUserEmailValid(email, "users");
-    if (emailUser && emailUser.id !== id) {
-      return res
-        .status(HTTP_BAD_REQUEST)
-        .json({ message: "This email is already in use." });
+    if (email !== existingUser.email) {
+      await validEmail.validate({ email });
+      await dbOperations.isUserEmailValid(email, "users");
     }
 
     if (password) {
