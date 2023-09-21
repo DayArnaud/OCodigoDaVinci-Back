@@ -10,7 +10,7 @@ async function authenticate(req, res, next) {
   const { authorization } = req.headers;
 
   if (!authorization) {
-    return res.status(HTTP_UNAUTHORIZED).json("Unauthorized");
+    return res.status(HTTP_UNAUTHORIZED).json("Não autorizado");
   }
 
   try {
@@ -20,7 +20,7 @@ async function authenticate(req, res, next) {
     const foundUser = await knex("users").where({ id }).first();
 
     if (!foundUser) {
-      return res.status(HTTP_NOT_FOUND).json("User not found");
+      return res.status(HTTP_NOT_FOUND).json("Usuário não encontrado");
     }
 
     const { password: _, ...userWithoutPassword } = foundUser;

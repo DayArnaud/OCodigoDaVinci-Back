@@ -4,24 +4,24 @@ const validEmail = yup.object().shape({
   email: yup
     .string()
     .trim()
-    .min(8, "Email must have at least 8 characters")
-    .matches(/@/, "Email must include @ symbol")
-    .email("Email must be valid")
-    .required("Email is mandatory"),
+    .min(8, "O email deve ter pelo menos 8 caracteres")
+    .matches(/@/, "O email deve conter o símbolo @")
+    .email("O email deve ser válido")
+    .required("O email é obrigatório"),
 });
 
 const validateName = yup.object().shape({
   name: yup
     .string()
     .trim()
-    .required("Name is required and must be a valid string."),
+    .required("O nome é obrigatório e deve conter somente letras."),
 });
 
 const validatePassword = yup.object().shape({
   password: yup
     .string()
     .trim()
-    .min(6, "Invalid password! Must be at least 6 characters.")
+    .min(6, "Senha inválida! Deve ter pelo menos 6 caracteres.")
     .required(),
 });
 
@@ -29,8 +29,8 @@ const validateCpf = yup.object().shape({
   cpf: yup
     .string()
     .trim()
-    .length(11, "Invalid CPF! It should have 11 numeric digits.")
-    .matches(/^\d+$/, "CPF should only contain numeric digits")
+    .length(11, "CPF inválido! Deve conter 11 números")
+    .matches(/^\d+$/, "O CPF deve conter apenas números")
     .required(),
 });
 
@@ -40,60 +40,46 @@ const validatePhone = yup.object().shape({
     .trim()
     .min(
       10,
-      "Invalid phone number! Should include area code, no spaces and a valid number."
+      "Número de telefone inválido! Deve incluir o código de área, sem espaços, e um número válido."
     )
-    .matches(/^\d+$/, "Phone number should only contain numeric digits")
+    .matches(/^\d+$/, "O número de telefone deve conter apenas números")
     .required(),
-});
-
-const validatePostal = yup.object().shape({
-  postal: yup
-    .string()
-    .trim()
-    .length(8, "Invalid Postal Code! Must have 8 digits.")
-    .matches(/^\d+$/, "Postal Code should only contain numeric digits")
-    .nullable()
-    .notRequired(),
 });
 
 const validateState = yup.object().shape({
   state: yup
     .string()
     .trim()
-    .length(2, "State code must have 2 letters.")
-    .oneOf(
-      [
-        "AC",
-        "AL",
-        "AP",
-        "AM",
-        "BA",
-        "CE",
-        "DF",
-        "ES",
-        "GO",
-        "MA",
-        "MT",
-        "MS",
-        "MG",
-        "PA",
-        "PB",
-        "PR",
-        "PE",
-        "PI",
-        "RR",
-        "RO",
-        "RJ",
-        "RN",
-        "RS",
-        "SC",
-        "SP",
-        "SE",
-        "TO",
-      ],
-      "Invalid state."
-    )
-    .required(),
+    .oneOf([
+      "AC",
+      "AL",
+      "AP",
+      "AM",
+      "BA",
+      "CE",
+      "DF",
+      "ES",
+      "GO",
+      "MA",
+      "MT",
+      "MS",
+      "MG",
+      "PA",
+      "PB",
+      "PR",
+      "PE",
+      "PI",
+      "RR",
+      "RO",
+      "RJ",
+      "RN",
+      "RS",
+      "SC",
+      "SP",
+      "SE",
+      "TO",
+      "",
+    ]),
 });
 
 module.exports = {
@@ -102,6 +88,5 @@ module.exports = {
   validatePassword,
   validateCpf,
   validatePhone,
-  validatePostal,
   validateState,
 };

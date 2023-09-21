@@ -1,17 +1,19 @@
 const yup = require("./yupConfig");
 
 const validSignUp = yup.object().shape({
-  name: yup.string().trim().required("Name is mandatory"),
+  name: yup.string().trim().required("Nome é um campo obrigatório"),
   email: yup
     .string()
     .trim()
     .email()
-    .required("Email is mandatory and must be valid"),
+    .required(
+      "Email é uma campo obrigatório e deve estar em um formato válido"
+    ),
   password: yup
     .string()
     .trim()
     .min(6)
-    .required("Password is mandatory and must be at least 6 characters"),
+    .required("Senha é obrigatória e deve ter ao menos 6 caracteres"),
 });
 
 module.exports = validSignUp;
