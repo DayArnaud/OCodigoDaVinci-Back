@@ -19,6 +19,7 @@ const {
 const { markAsPaid } = require("../controllers/chargeController/markAsPaid");
 const { checkChargeStatus } = require("../middlewares/checkChargeStatus");
 const listClientCharges = require("../controllers/chargeController/listClientCharges");
+const { showClient } = require("../controllers/clientController/showClient");
 
 const routes = express();
 
@@ -38,6 +39,8 @@ routes.get("/cep/:cep", fetchAddressByCep);
 routes.post("/clients", registerClient);
 
 routes.post("/paid", markAsPaid);
+
+routes.get("/clients", showClient)
 
 routes.get("/charges/:clientId", listClientCharges);
 routes.use(checkChargeStatus); // será usada depois
