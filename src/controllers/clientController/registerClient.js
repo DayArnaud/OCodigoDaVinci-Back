@@ -1,11 +1,10 @@
-const axios = require("axios");
 const dbOperations = require("../../utils/dbOperations");
+
 const {
   validEmail,
   validateName,
   validateCpf,
   validatePhone,
-  validatePostal,
   validateState,
 } = require("../../schemasYup/userClientValidations");
 
@@ -19,18 +18,11 @@ async function checkClientEmailAvailability(req, res) {
   try {
     await validEmail.validate({ email });
     await dbOperations.isClientEmailValid(email, "clients");
-    return res.status(HTTP_SUCCESS).json({ message: "Valid email" });
+    return res
+      .status(HTTP_SUCCESS)
+      .json({ message: "Email disponível para uso" });
   } catch (error) {
     return res.status(HTTP_BAD_REQUEST).json({ message: error.message });
-  }
-}
-
-async function fetchAddressByCep(cep) {
-  try {
-    const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-    return response.data;
-  } catch (error) {
-    throw new Error("Failed to fetch CEP");
   }
 }
 
@@ -55,17 +47,6 @@ async function registerClient(req, res) {
     await dbOperations.isCpfValid(cpf, "clients");
     await validateCpf.validate({ cpf });
     await validatePhone.validate({ phone });
-
-    if (cep) {
-      await validatePostal.validate({ cep });
-      const cepData = await fetchAddressByCep(cep);
-      address = cepData.logradouro;
-      complement = cepData.complemento;
-      neighborhood = cepData.bairro;
-      city = cepData.localidade;
-      state = cepData.uf;
-    }
-
     await validateState.validate({ state });
 
     const client = await dbOperations.registerNewClient(

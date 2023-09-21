@@ -3,7 +3,7 @@ const knex = require("../connection");
 const isUserEmailValid = async (email, table = "users") => {
   const user = await knex(table).where({ email }).first();
   if (user) {
-    throw new Error("Email already registered");
+    throw new Error("Email já registrado");
   }
 };
 
@@ -19,7 +19,7 @@ const registerNewUser = async (name, email, password) => {
     .returning("*");
 
   if (!user) {
-    throw new Error("The user was not registered.");
+    throw new Error("Usuário não registrado");
   }
 
   return user;
@@ -30,7 +30,7 @@ const verifyLoginUser = async (emailUser) => {
 
   if (!user) {
     throw new Error(
-      "The email you entered isn't registered. Please check and try again."
+      "O email que você digitou não está registrado. Por favor, verifique e tente novamente"
     );
   }
 
@@ -40,7 +40,7 @@ const verifyLoginUser = async (emailUser) => {
 const isCpfValid = async (cpf, table = "clients") => {
   const existingUser = await knex(table).where({ cpf }).first();
   if (existingUser) {
-    throw new Error("CPF already registered");
+    throw new Error("CPF já registrado");
   }
 };
 
@@ -55,7 +55,8 @@ const deleteUserById = async (userId) => {
     }
   } catch (error) {
     throw new Error(
-      "An error occurred while deleting the user: " + error.message
+      "Um erro ocorreu enquanto o usuário estava sendo deletado: " +
+        error.message
     );
   }
 };
@@ -65,14 +66,14 @@ const getAllUsers = async () => {
     const users = await knex("users").select("*");
     return users;
   } catch (error) {
-    throw new Error("Could not fetch users");
+    throw new Error("Não foi possível listar os usuários");
   }
 };
 
 const isClientEmailValid = async (email, table = "clients") => {
   const client = await knex(table).where({ email }).first();
   if (client) {
-    throw new Error("Email already registered");
+    throw new Error("Email já registrado");
   }
 };
 
@@ -113,7 +114,7 @@ const registerNewClient = async (
 async function verifyUserById(userId) {
   const user = await knex("users").where({ id: userId }).first();
   if (!user) {
-    throw new Error("User not found!");
+    throw new Error("Usuário não localizado");
   }
   return user;
 }
@@ -140,7 +141,7 @@ async function updatingUser(name, email, password, cpf, phone, userId) {
     .returning("*");
 
   if (!updatedUser) {
-    throw new Error("User was not updated!");
+    throw new Error("Usuário não foi atualizado");
   }
 
   return updatedUser[0];
@@ -149,6 +150,32 @@ async function updatingUser(name, email, password, cpf, phone, userId) {
 async function isValidClientId(id) {
   const client = await knex("clients").where({ id: id });
   return client.length > 0;
+}
+
+async function getChargeById(id) {
+  try {
+    const [result] = await knex("charges").select("*").where({ id });
+
+    if (!result) {
+      throw new Error("Pagamento não encontrado");
+    }
+
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+async function updateChargeStatus(id, status) {
+  try {
+    await knex("charges").update({ status }).where({ id });
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Falha ao atualizar o status da cobrança");
+  }
 }
 
 module.exports = {
@@ -163,4 +190,6 @@ module.exports = {
   verifyUserById,
   updatingUser,
   isValidClientId,
+  getChargeById,
+  updateChargeStatus,
 };

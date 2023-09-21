@@ -5,7 +5,7 @@ async function checkValidClientId(req, res, next) {
   const isValid = await isValidClientId(id);
 
   if (!isValid) {
-    return res.status(400).json({ error: "Invalid client ID" });
+    return res.status(400).json({ error: "ID do cliente é inválido" });
   }
 
   next();
