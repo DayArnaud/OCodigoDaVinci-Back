@@ -17,6 +17,8 @@ const {
   fetchAddressByCep,
 } = require("../controllers/clientController/checkCep");
 const { markAsPaid } = require("../controllers/chargeController/markAsPaid");
+const { checkChargeStatus } = require("../middlewares/checkChargeStatus");
+const listClientCharges = require("../controllers/chargeController/listClientCharges");
 
 const routes = express();
 
@@ -36,5 +38,8 @@ routes.get("/cep/:cep", fetchAddressByCep);
 routes.post("/clients", registerClient);
 
 routes.post("/paid", markAsPaid);
+
+routes.get("/charges/:clientId", listClientCharges);
+routes.use(checkChargeStatus); // será usada depois
 
 module.exports = routes;

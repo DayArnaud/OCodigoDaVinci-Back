@@ -42,4 +42,4 @@ async function checkChargeStatus(req, res, next) {
   }
 }
 
-module.exports = checkChargeStatus;
+module.exports = { checkChargeStatus };
