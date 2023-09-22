@@ -32,7 +32,7 @@ const {
 
 const { authenticate } = require("../middlewares/checkLoginAuth");
 const { checkValidClientId } = require("../middlewares/checkValidClientId");
-// const { checkChargeStatus } = require("../middlewares/checkChargeStatus");
+const { checkChargeStatus } = require("../middlewares/checkChargeStatus");
 
 routes.post("/validate-email", checkEmailAvailability);
 routes.post("/signup", signUp);
@@ -50,8 +50,7 @@ routes.get("/cep/:cep", fetchAddressByCep);
 routes.post("/clients", registerClient);
 routes.get("/clients", listAllClients);
 
-routes.get("/charges", listCharges);
-
+routes.get("/charges", checkChargeStatus, listCharges);
 routes.post("/clients/:client_id/charges", checkValidClientId, registerCharge);
 routes.patch(
   "/clients/:client_id/charges/:id",
@@ -61,9 +60,8 @@ routes.patch(
 routes.get(
   "/clients/:client_id/charges",
   checkValidClientId,
+  checkChargeStatus,
   listClientCharges
 );
-
-// routes.use(checkChargeStatus);
 
 module.exports = routes;
