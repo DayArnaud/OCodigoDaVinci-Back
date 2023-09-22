@@ -13,9 +13,11 @@ async function deleteUser(req, res) {
     if (result) {
       return res
         .status(HTTP_SUCCESS)
-        .json({ message: "User deleted successfully" });
+        .json({ message: "Usuário deletado com sucesso" });
     } else {
-      return res.status(HTTP_NOT_FOUND).json({ message: "User not found" });
+      return res
+        .status(HTTP_NOT_FOUND)
+        .json({ message: "Usuário não encontrado" });
     }
   } catch (error) {
     return res.status(HTTP_BAD_REQUEST).json({ message: error.message });

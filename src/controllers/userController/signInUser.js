@@ -13,13 +13,17 @@ async function signIn(req, res) {
   try {
     await validSignIn.validate(req.body);
     const user = await dbOperations.verifyLoginUser(email);
+
+    if (!user) {
+      return res.status(HTTP_BAD_REQUEST).json({ message: "Email inválido" });
+    }
+
     const verifyPassword = await bcrypt.compare(password, user.password);
 
     if (!verifyPassword) {
-      return res
-        .status(HTTP_BAD_REQUEST)
-        .json({ message: "Invalid email or password" });
+      return res.status(HTTP_BAD_REQUEST).json({ message: "Senha inválida" });
     }
+
     const token = jwt.sign({ id: user.id }, jwtToken, { expiresIn: "8h" });
     const { password: _, ...userDetails } = user;
     userDetails.token = token;
