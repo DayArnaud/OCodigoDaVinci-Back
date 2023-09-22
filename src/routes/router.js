@@ -1,1 +1,48 @@
+const express = require("express");
+const {
+  signUp,
+  checkEmailAvailability,
+} = require("../controllers/userController/signUpUser");
+const signIn = require("../controllers/userController/signInUser");
+const {
+  registerClient,
+  checkClientEmailAvailability,
+} = require("../controllers/clientController/registerClient");
+const { showUser } = require("../controllers/userController/showUser");
+const { authenticate } = require("../middlewares/checkLoginAuth");
+const { updateUser } = require("../controllers/userController/updateUser");
+const { deleteUser } = require("../controllers/userController/deleteUser");
+const { listUsers } = require("../controllers/userController/listUsers");
+const {
+  fetchAddressByCep,
+} = require("../controllers/clientController/checkCep");
+const { markAsPaid } = require("../controllers/chargeController/markAsPaid");
+const { checkChargeStatus } = require("../middlewares/checkChargeStatus");
+const listClientCharges = require("../controllers/chargeController/listClientCharges");
+const { showClient } = require("../controllers/clientController/showClient");
 
+const routes = express();
+
+routes.post("/validate-email", checkEmailAvailability);
+routes.post("/signup", signUp);
+routes.post("/login", signIn);
+
+routes.use(authenticate);
+
+routes.get("/me", showUser);
+routes.patch("/update-me", updateUser);
+routes.get("/list-users", listUsers);
+routes.delete("/me", deleteUser);
+
+routes.post("/validate-client-email", checkClientEmailAvailability);
+routes.get("/cep/:cep", fetchAddressByCep);
+routes.post("/clients", registerClient);
+
+routes.post("/paid", markAsPaid);
+
+routes.get("/clients", showClient);
+
+routes.get("/charges/:clientId", listClientCharges);
+routes.use(checkChargeStatus); // será usada depois
+
+module.exports = routes;
