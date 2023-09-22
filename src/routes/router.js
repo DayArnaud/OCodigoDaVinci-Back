@@ -30,6 +30,9 @@ const {
 } = require("../controllers/chargeController/updateCharge");
 
 const { authenticate } = require("../middlewares/checkLoginAuth");
+
+const { listCharge } = require("../controllers/chargeController/listCharge");
+
 // const { checkValidClientId } = require("../middlewares/checkValidClientId");
 // const { checkChargeStatus } = require("../middlewares/checkChargeStatus");
 
@@ -52,6 +55,9 @@ routes.get("/clients", listAllClients);
 // routes.use(checkValidClientId);
 
 routes.post("/clients/:client_id/charges", registerCharge);
+
+routes.get("/charges", listCharge);
+
 routes.patch("/clients/:client_id/charges/:id", updateCharge);
 routes.get("/clients/:client_id/charges", listClientCharges);
 
