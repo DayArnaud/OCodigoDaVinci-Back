@@ -170,12 +170,15 @@ async function getChargeById(id) {
 async function updateChargeStatus(id, status) {
   try {
     await knex("charges").update({ status }).where({ id });
-
     return true;
   } catch (error) {
     console.error(error);
     throw new Error("Falha ao atualizar o status da cobrança");
   }
+}
+
+async function markAsPaid(id) {
+  await updateChargeStatus(id, "paga");
 }
 
 module.exports = {
@@ -192,4 +195,5 @@ module.exports = {
   isValidClientId,
   getChargeById,
   updateChargeStatus,
+  markAsPaid,
 };

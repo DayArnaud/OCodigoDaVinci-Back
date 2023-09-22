@@ -18,13 +18,19 @@ async function updateUser(req, res) {
   if (!name) {
     return res
       .status(HTTP_BAD_REQUEST)
-      .json({ message: "Name is mandatory for the update." });
+      .json({
+        message:
+          "É obrigatório preencher o campo 'nome' para seguir com a atualização",
+      });
   }
 
   if (!email) {
     return res
       .status(HTTP_BAD_REQUEST)
-      .json({ message: "Email is mandatory for the update." });
+      .json({
+        message:
+          "É obrigatório preencher o campo 'email' para seguir com a atualização",
+      });
   }
 
   try {
@@ -53,7 +59,7 @@ async function updateUser(req, res) {
 
     await dbOperations.updatingUser(name, email, password, cpf, phone, id);
 
-    return res.status(HTTP_SUCCESS).json("User has been successfully updated.");
+    return res.status(HTTP_SUCCESS).json("Usuário foi atualizado com sucesso");
   } catch (error) {
     return res.status(HTTP_BAD_REQUEST).json({ message: error.message });
   }
