@@ -167,6 +167,16 @@ async function getChargeById(id) {
   }
 }
 
+async function getAllCharges() {
+  try {
+    const charges = await knex("charges").select("*");
+    return charges;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 async function updateChargeStatus(id, status) {
   try {
     await knex("charges").update({ status }).where({ id });
@@ -199,6 +209,7 @@ module.exports = {
   updatingUser,
   isValidClientId,
   getChargeById,
+  getAllCharges,
   updateChargeStatus,
   markAsPaid,
   formatDueDate,
