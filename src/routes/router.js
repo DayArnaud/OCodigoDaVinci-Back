@@ -25,14 +25,13 @@ const {
 
 const listClientCharges = require("../controllers/chargeController/listClientCharges");
 const registerCharge = require("../controllers/chargeController/registerCharge");
+const { listCharges } = require("../controllers/chargeController/listCharges");
 const {
   updateCharge,
 } = require("../controllers/chargeController/updateCharge");
 
 const { authenticate } = require("../middlewares/checkLoginAuth");
-
-const { listCharge } = require("../controllers/chargeController/listCharge");
-
+const { checkValidClientId } = require("../middlewares/checkValidClientId");
 // const { checkValidClientId } = require("../middlewares/checkValidClientId");
 // const { checkChargeStatus } = require("../middlewares/checkChargeStatus");
 
@@ -52,14 +51,19 @@ routes.get("/cep/:cep", fetchAddressByCep);
 routes.post("/clients", registerClient);
 routes.get("/clients", listAllClients);
 
-// routes.use(checkValidClientId);
+routes.get("/charges", listCharges);
 
-routes.post("/clients/:client_id/charges", registerCharge);
-
-routes.get("/charges", listCharge);
-
-routes.patch("/clients/:client_id/charges/:id", updateCharge);
-routes.get("/clients/:client_id/charges", listClientCharges);
+routes.post("/clients/:client_id/charges", checkValidClientId, registerCharge);
+routes.patch(
+  "/clients/:client_id/charges/:id",
+  checkValidClientId,
+  updateCharge
+);
+routes.get(
+  "/clients/:client_id/charges",
+  checkValidClientId,
+  listClientCharges
+);
 
 // routes.use(checkChargeStatus);
 

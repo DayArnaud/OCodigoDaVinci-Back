@@ -8,7 +8,8 @@ const HTTP_BAD_REQUEST = 400;
 const HTTP_SERVER_ERROR = 500;
 
 const registerCharge = async (req, res) => {
-  const { client_id, description, value, due_date, status } = req.body;
+  const { description, value, due_date, status } = req.body;
+  const { client_id } = req.params;
 
   try {
     await validateCharge.validate({
