@@ -178,7 +178,7 @@ async function updateChargeStatus(id, status) {
 }
 
 async function markAsPaid(id) {
-  await updateChargeStatus(id, "paga");
+  await updateChargeStatus(id, "Paga");
 }
 
 const formatDueDate = (dateString) => {

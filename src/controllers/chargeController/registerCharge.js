@@ -1,7 +1,7 @@
 const knex = require("../../connection");
 const yup = require("yup");
 const { validateCharge } = require("../../schemasYup/chargeValidations");
-const { markAsPaid } = require("../../utils/dbOperations");
+const { markAsPaid, formatDueDate } = require("../../utils/dbOperations");
 
 const HTTP_CREATED = 201;
 const HTTP_BAD_REQUEST = 400;
@@ -18,11 +18,13 @@ const registerCharge = async (req, res) => {
       description,
     });
 
+    const formattedDueDate = formatDueDate(due_date);
+
     const newCharge = {
       client_id,
       description,
       value,
-      due_date,
+      due_date: formattedDueDate,
       status,
     };
 
@@ -30,7 +32,7 @@ const registerCharge = async (req, res) => {
       .insert(newCharge)
       .returning("*");
 
-    if (status === "paga") {
+    if (status === "Paga") {
       await markAsPaid(insertedCharge.id);
     }
 

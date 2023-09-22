@@ -29,7 +29,7 @@ const updateCharge = async (req, res) => {
       status,
     });
 
-    if (status === "paga") {
+    if (status === "Paga") {
       await markAsPaid(id);
     }
 
