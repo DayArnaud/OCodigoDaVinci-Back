@@ -181,6 +181,11 @@ async function markAsPaid(id) {
   await updateChargeStatus(id, "paga");
 }
 
+const formatDueDate = (dateString) => {
+  const [day, month, year] = dateString.split("/");
+  return `${year}-${month}-${day}`;
+};
+
 module.exports = {
   isUserEmailValid,
   registerNewUser,
@@ -196,4 +201,5 @@ module.exports = {
   getChargeById,
   updateChargeStatus,
   markAsPaid,
+  formatDueDate,
 };

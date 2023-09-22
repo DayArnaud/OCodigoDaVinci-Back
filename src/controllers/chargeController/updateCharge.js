@@ -2,6 +2,7 @@ const knex = require("../../connection");
 const yup = require("yup");
 const { validateCharge } = require("../../schemasYup/chargeValidations");
 const { markAsPaid } = require("../../utils/dbOperations");
+const { formatDueDate } = require("../../utils/dbOperations");
 
 const HTTP_OK = 200;
 const HTTP_BAD_REQUEST = 400;
@@ -10,7 +11,7 @@ const HTTP_SERVER_ERROR = 500;
 
 const updateCharge = async (req, res) => {
   const { id } = req.params;
-  const { client_id, description, value, due_date, status } = req.body;
+  const { description, value, due_date, status } = req.body;
 
   try {
     await validateCharge.validate({
@@ -19,11 +20,12 @@ const updateCharge = async (req, res) => {
       description,
     });
 
+    const formattedDueDate = formatDueDate(due_date);
+
     await knex("charges").where({ id }).update({
-      client_id,
       description,
       value,
-      due_date,
+      due_date: formattedDueDate,
       status,
     });
 

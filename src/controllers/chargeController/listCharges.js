@@ -2,7 +2,7 @@ const knex = require("../../connection");
 const HTTP_SUCCESS = 200;
 const HTTP_BAD_REQUEST = 400;
 
-async function listCharge(req, res) {
+async function listCharges(req, res) {
   try {
     const charges = await knex("charges").select("*");
 
@@ -13,5 +13,5 @@ async function listCharge(req, res) {
 }
 
 module.exports = {
-  listCharge,
+  listCharges,
 };
