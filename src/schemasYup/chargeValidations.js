@@ -19,7 +19,12 @@ const validateCharge = yup.object().shape({
     )
     .test("is-future", "A data deve ser de hoje ou futura", function (value) {
       const today = new Date();
-      const inputDate = new Date(value.split("/").reverse().join("-"));
+      today.setHours(0, 0, 0, 0);
+
+      const [day, month, year] = value.split("/");
+      const inputDate = new Date(year, month - 1, day);
+      inputDate.setHours(0, 0, 0, 0);
+
       return inputDate >= today;
     }),
 

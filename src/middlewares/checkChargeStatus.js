@@ -17,7 +17,7 @@ async function checkChargeStatus(req, res, next) {
 
     const { dueDate, status } = charge;
 
-    if (status === "paga") {
+    if (status === "Paga") {
       return next();
     }
 

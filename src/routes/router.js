@@ -32,7 +32,6 @@ const {
 
 const { authenticate } = require("../middlewares/checkLoginAuth");
 const { checkValidClientId } = require("../middlewares/checkValidClientId");
-// const { checkValidClientId } = require("../middlewares/checkValidClientId");
 // const { checkChargeStatus } = require("../middlewares/checkChargeStatus");
 
 routes.post("/validate-email", checkEmailAvailability);
