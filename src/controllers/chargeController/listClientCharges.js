@@ -5,12 +5,10 @@ const HTTP_SUCCESS = 200;
 const HTTP_SERVER_ERROR = 500;
 
 const listClientCharges = async (req, res) => {
-  const { clientId } = req.params;
+  const { client_id } = req.params;
 
   try {
-    const charges = await knex("charges")
-      .where({ client_id: clientId })
-      .select("*");
+    const charges = await knex("charges").where({ client_id }).select("*");
 
     if (!charges.length) {
       return res

@@ -1,27 +1,37 @@
 const express = require("express");
+const routes = express();
+
 const {
   signUp,
   checkEmailAvailability,
 } = require("../controllers/userController/signUpUser");
 const signIn = require("../controllers/userController/signInUser");
+
+const { showUser } = require("../controllers/userController/showUser");
+const { updateUser } = require("../controllers/userController/updateUser");
+const { deleteUser } = require("../controllers/userController/deleteUser");
+const { listUsers } = require("../controllers/userController/listUsers");
+
 const {
   registerClient,
   checkClientEmailAvailability,
 } = require("../controllers/clientController/registerClient");
-const { showUser } = require("../controllers/userController/showUser");
-const { authenticate } = require("../middlewares/checkLoginAuth");
-const { updateUser } = require("../controllers/userController/updateUser");
-const { deleteUser } = require("../controllers/userController/deleteUser");
-const { listUsers } = require("../controllers/userController/listUsers");
 const {
   fetchAddressByCep,
 } = require("../controllers/clientController/checkCep");
-const { markAsPaid } = require("../controllers/chargeController/markAsPaid");
-const { checkChargeStatus } = require("../middlewares/checkChargeStatus");
-const listClientCharges = require("../controllers/chargeController/listClientCharges");
-const { showClient } = require("../controllers/clientController/showClient");
+const {
+  listAllClients,
+} = require("../controllers/clientController/listAllClients");
 
-const routes = express();
+const listClientCharges = require("../controllers/chargeController/listClientCharges");
+const registerCharge = require("../controllers/chargeController/registerCharge");
+const {
+  updateCharge,
+} = require("../controllers/chargeController/updateCharge");
+
+const { authenticate } = require("../middlewares/checkLoginAuth");
+// const { checkValidClientId } = require("../middlewares/checkValidClientId");
+// const { checkChargeStatus } = require("../middlewares/checkChargeStatus");
 
 routes.post("/validate-email", checkEmailAvailability);
 routes.post("/signup", signUp);
@@ -37,12 +47,14 @@ routes.delete("/me", deleteUser);
 routes.post("/validate-client-email", checkClientEmailAvailability);
 routes.get("/cep/:cep", fetchAddressByCep);
 routes.post("/clients", registerClient);
+routes.get("/clients", listAllClients);
 
-routes.post("/paid", markAsPaid);
+// routes.use(checkValidClientId);
 
-routes.get("/clients", showClient);
+routes.post("/clients/:client_id/charges", registerCharge);
+routes.patch("/clients/:client_id/charges/:id", updateCharge);
+routes.get("/clients/:client_id/charges", listClientCharges);
 
-routes.get("/charges/:clientId", listClientCharges);
-routes.use(checkChargeStatus); // será usada depois
+// routes.use(checkChargeStatus);
 
 module.exports = routes;
