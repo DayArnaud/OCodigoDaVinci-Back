@@ -21,7 +21,7 @@ async function listAllClients(req, res) {
         today.setHours(0, 0, 0, 0);
         dueDate.setHours(0, 0, 0, 0);
 
-        if (today > dueDate && charge.status === "pendente") {
+        if (today > dueDate && charge.status === "Pendente") {
           client.status = "Inadimplente";
           break;
         }
