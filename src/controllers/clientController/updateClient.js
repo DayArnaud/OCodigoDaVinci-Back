@@ -28,7 +28,7 @@ async function updateClient(req, res) {
   if (!name) {
     return res.status(HTTP_BAD_REQUEST).json({
       message:
-        "É obrigatório preencher o campo 'name' para seguir com a atualização",
+        "É obrigatório preencher o campo 'nome' para seguir com a atualização",
     });
   }
 

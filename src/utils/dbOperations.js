@@ -37,13 +37,6 @@ const verifyLoginUser = async (emailUser) => {
   return user;
 };
 
-// const isUserCpfValid = async (cpf, table = "users") => {
-//   const existingUser = await knex(table).where({ cpf }).first();
-//   if (existingUser) {
-//     throw new Error("CPF já registrado");
-//   }
-// };
-
 const isUserCpfValid = async (cpf, table = "users", excludeId = null) => {
   const query = knex(table).where({ cpf });
 
@@ -118,13 +111,6 @@ const updatingUser = async (name, email, password, cpf, phone, userId) => {
 
   return updatedUser[0];
 };
-
-// const isClientEmailValid = async (email, table = "clients") => {
-//   const client = await knex(table).where({ email }).first();
-//   if (client) {
-//     throw new Error("Email já registrado");
-//   }
-// };
 
 const isClientEmailValid = async (
   email,
@@ -202,14 +188,6 @@ const verifyClientById = async (clientId) => {
   }
   return client;
 };
-
-// const updateClient = async (id, clientData) => {
-//   try {
-//     await knex("clients").where({ id }).update(clientData);
-//   } catch (error) {
-//     throw new Error("Falha ao atualizar o cliente");
-//   }
-// };
 
 const updatingClient = async (
   name,
