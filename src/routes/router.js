@@ -36,6 +36,7 @@ const {
 const { authenticate } = require("../middlewares/checkLoginAuth");
 const { checkValidClientId } = require("../middlewares/checkValidClientId");
 const { checkChargeStatus } = require("../middlewares/checkChargeStatus");
+const { showClient } = require("../controllers/clientController/showClient");
 
 routes.post("/validate-email", checkEmailAvailability);
 routes.post("/signup", signUp);
@@ -53,6 +54,7 @@ routes.get("/cep/:cep", fetchAddressByCep);
 routes.post("/clients", registerClient);
 routes.patch("/clients/:id", updateClient);
 routes.get("/clients", listAllClients);
+routes.get("/clients/:id", showClient);
 
 routes.get("/charges", checkChargeStatus, listCharges);
 routes.post("/clients/:client_id/charges", checkValidClientId, registerCharge);
