@@ -12,30 +12,25 @@ const HTTP_SUCCESS = 200;
 const HTTP_BAD_REQUEST = 400;
 
 async function updateUser(req, res) {
-  let { name, email, password, cpf, phone } = req.body;
   const { id } = req.user;
+  let { name, email, password, cpf, phone } = req.body;
 
   if (!name) {
-    return res
-      .status(HTTP_BAD_REQUEST)
-      .json({
-        message:
-          "É obrigatório preencher o campo 'nome' para seguir com a atualização",
-      });
+    return res.status(HTTP_BAD_REQUEST).json({
+      message:
+        "É obrigatório preencher o campo 'nome' para seguir com a atualização",
+    });
   }
 
   if (!email) {
-    return res
-      .status(HTTP_BAD_REQUEST)
-      .json({
-        message:
-          "É obrigatório preencher o campo 'email' para seguir com a atualização",
-      });
+    return res.status(HTTP_BAD_REQUEST).json({
+      message:
+        "É obrigatório preencher o campo 'email' para seguir com a atualização",
+    });
   }
 
   try {
     const existingUser = await dbOperations.verifyUserById(id);
-
     await validateName.validate({ name });
 
     if (email !== existingUser.email) {
@@ -50,7 +45,7 @@ async function updateUser(req, res) {
 
     if (cpf && cpf !== existingUser.cpf) {
       await validateCpf.validate({ cpf });
-      await dbOperations.isCpfValid(cpf, "users");
+      await dbOperations.isUserCpfValid(cpf, "users");
     }
 
     if (phone && phone !== existingUser.phone) {

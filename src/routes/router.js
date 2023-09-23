@@ -20,6 +20,9 @@ const {
   fetchAddressByCep,
 } = require("../controllers/clientController/checkCep");
 const {
+  updateClient,
+} = require("../controllers/clientController/updateClient");
+const {
   listAllClients,
 } = require("../controllers/clientController/listAllClients");
 
@@ -48,6 +51,7 @@ routes.delete("/me", deleteUser);
 routes.post("/validate-client-email", checkClientEmailAvailability);
 routes.get("/cep/:cep", fetchAddressByCep);
 routes.post("/clients", registerClient);
+routes.patch("/clients/:id", updateClient);
 routes.get("/clients", listAllClients);
 
 routes.get("/charges", checkChargeStatus, listCharges);

@@ -37,10 +37,23 @@ const verifyLoginUser = async (emailUser) => {
   return user;
 };
 
-const isCpfValid = async (cpf, table = "clients") => {
-  const existingUser = await knex(table).where({ cpf }).first();
+// const isUserCpfValid = async (cpf, table = "users") => {
+//   const existingUser = await knex(table).where({ cpf }).first();
+//   if (existingUser) {
+//     throw new Error("CPF já registrado");
+//   }
+// };
+
+const isUserCpfValid = async (cpf, table = "users", excludeId = null) => {
+  const query = knex(table).where({ cpf });
+
+  if (excludeId) {
+    query.whereNot({ id: excludeId });
+  }
+
+  const existingUser = await query.first();
   if (existingUser) {
-    throw new Error("CPF já registrado");
+    throw new Error("CPF já registrado para outro usuário");
   }
 };
 
@@ -70,10 +83,76 @@ const getAllUsers = async () => {
   }
 };
 
-const isClientEmailValid = async (email, table = "clients") => {
-  const client = await knex(table).where({ email }).first();
+const verifyUserById = async (userId) => {
+  const user = await knex("users").where({ id: userId }).first();
+  if (!user) {
+    throw new Error("Usuário não localizado");
+  }
+  return user;
+};
+
+const updatingUser = async (name, email, password, cpf, phone, userId) => {
+  const schema = password
+    ? {
+        name,
+        email,
+        password,
+        cpf,
+        phone,
+      }
+    : {
+        name,
+        email,
+        cpf,
+        phone,
+      };
+
+  const updatedUser = await knex("users")
+    .update(schema)
+    .where({ id: userId })
+    .returning("*");
+
+  if (!updatedUser) {
+    throw new Error("Usuário não foi atualizado");
+  }
+
+  return updatedUser[0];
+};
+
+// const isClientEmailValid = async (email, table = "clients") => {
+//   const client = await knex(table).where({ email }).first();
+//   if (client) {
+//     throw new Error("Email já registrado");
+//   }
+// };
+
+const isClientEmailValid = async (
+  email,
+  table = "clients",
+  excludeId = null
+) => {
+  const query = knex(table).where({ email });
+
+  if (excludeId) {
+    query.whereNot({ id: excludeId });
+  }
+
+  const client = await query.first();
   if (client) {
     throw new Error("Email já registrado");
+  }
+};
+
+const isClientCpfValid = async (cpf, table = "clients", excludeId = null) => {
+  const query = knex(table).where({ cpf });
+
+  if (excludeId) {
+    query.whereNot({ id: excludeId });
+  }
+
+  const existingClient = await query.first();
+  if (existingClient) {
+    throw new Error("CPF já registrado para outro cliente");
   }
 };
 
@@ -111,48 +190,66 @@ const registerNewClient = async (
   return client[0];
 };
 
-async function verifyUserById(userId) {
-  const user = await knex("users").where({ id: userId }).first();
-  if (!user) {
-    throw new Error("Usuário não localizado");
-  }
-  return user;
-}
-
-async function updatingUser(name, email, password, cpf, phone, userId) {
-  const schema = password
-    ? {
-        name,
-        email,
-        password,
-        cpf,
-        phone,
-      }
-    : {
-        name,
-        email,
-        cpf,
-        phone,
-      };
-
-  const updatedUser = await knex("users")
-    .update(schema)
-    .where({ id: userId })
-    .returning("*");
-
-  if (!updatedUser) {
-    throw new Error("Usuário não foi atualizado");
-  }
-
-  return updatedUser[0];
-}
-
-async function isValidClientId(id) {
+const isValidClientId = async (id) => {
   const client = await knex("clients").where({ id: id });
   return client.length > 0;
-}
+};
 
-async function getChargeById(id) {
+const verifyClientById = async (clientId) => {
+  const client = await knex("clients").where({ id: clientId }).first();
+  if (!client) {
+    throw new Error("Cliente não localizado");
+  }
+  return client;
+};
+
+// const updateClient = async (id, clientData) => {
+//   try {
+//     await knex("clients").where({ id }).update(clientData);
+//   } catch (error) {
+//     throw new Error("Falha ao atualizar o cliente");
+//   }
+// };
+
+const updatingClient = async (
+  name,
+  email,
+  cpf,
+  phone,
+  cep,
+  address,
+  complement,
+  neighborhood,
+  city,
+  state,
+  clientId
+) => {
+  const schema = {
+    name,
+    email,
+    cpf,
+    phone,
+    cep,
+    address,
+    complement,
+    neighborhood,
+    city,
+    state,
+  };
+
+  const updatedClient = await knex("clients")
+    .update(schema)
+    .where({ id: clientId })
+    .returning("*");
+
+  if (!updatedClient) {
+    throw new Error("Falha ao atualizar o cliente");
+  }
+
+  return updatedClient[0];
+};
+
+const getChargeById = async (id) => {
   try {
     const [result] = await knex("charges").select("*").where({ id });
 
@@ -165,9 +262,9 @@ async function getChargeById(id) {
     console.error(error);
     throw error;
   }
-}
+};
 
-async function getAllCharges() {
+const getAllCharges = async () => {
   try {
     const charges = await knex("charges").select("*");
     return charges;
@@ -175,9 +272,9 @@ async function getAllCharges() {
     console.error(error);
     throw error;
   }
-}
+};
 
-async function updateChargeStatus(id, status) {
+const updateChargeStatus = async (id, status) => {
   try {
     await knex("charges").update({ status }).where({ id });
     return true;
@@ -185,11 +282,11 @@ async function updateChargeStatus(id, status) {
     console.error(error);
     throw new Error("Falha ao atualizar o status da cobrança");
   }
-}
+};
 
-async function markAsPaid(id) {
+const markAsPaid = async (id) => {
   await updateChargeStatus(id, "Paga");
-}
+};
 
 const formatDueDate = (dateString) => {
   const [day, month, year] = dateString.split("/");
@@ -200,17 +297,20 @@ module.exports = {
   isUserEmailValid,
   registerNewUser,
   verifyLoginUser,
-  isCpfValid,
+  isUserCpfValid,
   deleteUserById,
   getAllUsers,
   isClientEmailValid,
+  isClientCpfValid,
   registerNewClient,
   verifyUserById,
   updatingUser,
   isValidClientId,
+  verifyClientById,
   getChargeById,
   getAllCharges,
   updateChargeStatus,
   markAsPaid,
   formatDueDate,
+  updatingClient,
 };
