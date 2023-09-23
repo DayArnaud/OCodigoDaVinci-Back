@@ -44,7 +44,7 @@ async function registerClient(req, res) {
     await validateName.validate({ name });
     await dbOperations.isClientEmailValid(email, "clients");
     await validEmail.validate({ email });
-    await dbOperations.isCpfValid(cpf, "clients");
+    await dbOperations.isClientCpfValid(cpf, "clients");
     await validateCpf.validate({ cpf });
     await validatePhone.validate({ phone });
     await validateState.validate({ state });
