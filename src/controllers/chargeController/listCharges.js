@@ -4,7 +4,9 @@ const HTTP_BAD_REQUEST = 400;
 
 async function listCharges(req, res) {
   try {
-    const charges = await knex("charges").select("*");
+    const charges = await knex("charges")
+      .select("charges.*", "clients.name as client_name")
+      .join("clients", "charges.client_id", "clients.id");
 
     return res.status(HTTP_SUCCESS).json(charges);
   } catch (error) {
