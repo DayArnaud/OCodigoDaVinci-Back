@@ -93,7 +93,6 @@ async function updateClient(req, res) {
       .status(HTTP_SUCCESS)
       .json({ message: "Cliente foi atualizado com sucesso!" });
   } catch (error) {
-    console.error("Detalhes do erro:", error);
     return res.status(HTTP_BAD_REQUEST).json({ message: error.message });
   }
 }
