@@ -5,10 +5,7 @@ const HTTP_BAD_REQUEST = 400;
 
 async function listAllClients(req, res) {
   try {
-    const clients = await knex("clients")
-      .select("*")
-      .limit(10)
-      .offset(req.query.page * 10 || 0);
+    const clients = await knex("clients").select("*");
 
     for (const client of clients) {
       const charges = await knex("charges").where({ client_id: client.id });
@@ -21,11 +18,18 @@ async function listAllClients(req, res) {
         today.setHours(0, 0, 0, 0);
         dueDate.setHours(0, 0, 0, 0);
 
-        if (today > dueDate && charge.status === "Pendente") {
+        if (
+          today > dueDate &&
+          (charge.status === "Pendente" || charge.status === "Vencida")
+        ) {
           client.status = "Inadimplente";
           break;
         }
       }
+
+      await knex("clients")
+        .where({ id: client.id })
+        .update({ status: client.status });
     }
 
     return res.status(HTTP_SUCCESS).json(clients);
