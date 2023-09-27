@@ -58,11 +58,7 @@ routes.get("/clients/:client_id/clients/:id", checkValidClientId, showClient);
 
 routes.get("/charges", checkChargeStatus, listCharges);
 routes.post("/clients/:client_id/charges", checkValidClientId, registerCharge);
-routes.patch(
-  "/clients/:client_id/charges/:id",
-  checkValidClientId,
-  updateCharge
-);
+routes.patch("/charges/:id", updateCharge);
 routes.get(
   "/clients/:client_id/charges",
   checkValidClientId,
