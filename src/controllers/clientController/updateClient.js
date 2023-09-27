@@ -93,7 +93,10 @@ async function updateClient(req, res) {
       .status(HTTP_SUCCESS)
       .json({ message: "Cliente foi atualizado com sucesso!" });
   } catch (error) {
-    return res.status(HTTP_BAD_REQUEST).json({ message: error.message });
+    return res.status(HTTP_BAD_REQUEST).json({
+      message: error.message,
+      stack: error.stack, // Enviando o stack trace
+    });
   }
 }
 
