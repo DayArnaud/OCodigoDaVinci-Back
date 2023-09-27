@@ -33,6 +33,9 @@ const { listCharges } = require("../controllers/chargeController/listCharges");
 const {
   updateCharge,
 } = require("../controllers/chargeController/updateCharge");
+const {
+  deleteCharge,
+} = require("../controllers/chargeController/deleteCharge");
 
 const { authenticate } = require("../middlewares/checkLoginAuth");
 const { checkValidClientId } = require("../middlewares/checkValidClientId");
@@ -65,5 +68,6 @@ routes.get(
   checkChargeStatus,
   listClientCharges
 );
+routes.delete("/charges/:id", deleteCharge);
 
 module.exports = routes;
