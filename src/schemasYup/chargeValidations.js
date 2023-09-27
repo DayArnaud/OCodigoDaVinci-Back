@@ -34,6 +34,33 @@ const validateCharge = yup.object().shape({
     .required("Por favor, insira uma descrição válida para a cobrança."),
 });
 
+const validateDeleteCharge = yup.object().shape({
+  id: yup.string().required("O ID da cobrança é obrigatório"),
+  status: yup
+    .string()
+    .oneOf(
+      ["Pendente"],
+      "Só é possível excluir cobranças com status 'Pendente'"
+    ),
+  due_date: yup
+    .string()
+    .test(
+      "is-future-or-today",
+      "A data deve ser de hoje ou futura",
+      function (value) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const [day, month, year] = value.split("/");
+        const inputDate = new Date(year, month - 1, day);
+        inputDate.setHours(0, 0, 0, 0);
+
+        return inputDate >= today;
+      }
+    ),
+});
+
 module.exports = {
   validateCharge,
+  validateDeleteCharge,
 };
