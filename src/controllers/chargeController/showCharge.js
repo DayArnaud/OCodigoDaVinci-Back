@@ -3,7 +3,7 @@ const knex = require("../../connection");
 const HTTP_SUCCESS = 200;
 const HTTP_BAD_REQUEST = 400;
 
-async function showCharge(req, res) { 
+async function showCharge(req, res) {
   const chargeId = req.params.id;
   try {
     const charge = await knex("charges").where("id", chargeId).first();
@@ -11,7 +11,7 @@ async function showCharge(req, res) {
     if (!charge) {
       return res
         .status(HTTP_BAD_REQUEST)
-        .json({ message: "Cobrança não encontrado" });
+        .json({ message: "Cobrança não encontrada" });
     }
 
     return res.status(HTTP_SUCCESS).json(charge);

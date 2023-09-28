@@ -36,11 +36,11 @@ const {
 const {
   deleteCharge,
 } = require("../controllers/chargeController/deleteCharge");
+const { showCharge } = require("../controllers/chargeController/showCharge");
 
 const { authenticate } = require("../middlewares/checkLoginAuth");
 const { checkValidClientId } = require("../middlewares/checkValidClientId");
 const { checkChargeStatus } = require("../middlewares/checkChargeStatus");
-const { showCharge } = require("../controllers/chargeController/showCharge");
 
 routes.post("/validate-email", checkEmailAvailability);
 routes.post("/signup", signUp);
@@ -70,6 +70,6 @@ routes.get(
   listClientCharges
 );
 routes.delete("/charges/:id", deleteCharge);
-routes.get("/charges/:client_id/charges/:id",checkValidClientId, showCharge);
+routes.get("/charges/:id", showCharge);
 
 module.exports = routes;
