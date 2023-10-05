@@ -39,7 +39,7 @@ const validatePhone = yup.object().shape({
     .string()
     .trim()
     .min(
-      10,
+      11,
       "Número de telefone inválido! Deve incluir o código de área, sem espaços, e um número válido."
     )
     .matches(/^\d+$/, "O número de telefone deve conter apenas números")
